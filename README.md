@@ -51,6 +51,20 @@ Poké-Fishing-Bot 是一款基于图像模板匹配与模拟按键的**宝可梦
 
 ---
 
+## 使用（Windows）
+1.项目根目录创建并激活虚拟环境（推荐）
+python -m venv .venv
+.venv\Scripts\activate
+
+2.安装依赖
+pip install -r requirements.txt
+
+3.将「 assets/images 」里的模板图替换为你自己游戏实测截图（保持同名即可）
+
+4.运行脚本
+python main.py
+若看到半透明黑色日志窗弹出，即表示启动成功；3 秒内立即切换回游戏窗口，脚本将自动开始钓鱼。
+
 ## 项目结构
 
 **# PokeMMOAutoFishing**
@@ -76,3 +90,13 @@ PokeMMOAu to Fishing
 ├──.venv/        #虚拟环境
 ├── requirements.txt   #依赖环境
 └──README.md   #项目文档
+
+
+## 常见问题（FAQ）
+
+| 问题                     | 解决思路                                                                   |
+| ---------------------- | ---------------------------------------------------------------------- |
+| 脚本报错 `Image not found` | 检查 `assets/images/` 是否漏放截图；路径/命名必须与 `config.py` 保持一致                   |
+| 识别成功率低                 | ① 关闭游戏抗锯齿/动态光影；② 用 `tools/test_location.py` 重新截图；③ 调整 `CONF["high"]` 置信度 |
+| 日志窗不显示                 | 确保 Windows 缩放 100%；多屏时把游戏放主屏；或 `set PYTHONPATH=.` 后再运行                 |
+| 无法发送 QQ 截图             | 需要 Powershell 可用；QQ 必须已登录且「我的电脑」在顶部；`IMAGES["qq_send"]` 按钮图需替换         |
