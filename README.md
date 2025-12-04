@@ -1,0 +1,2 @@
+# PokeMMOAutoFishing
+PokeMMOAu to Fishing
