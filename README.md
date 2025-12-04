@@ -1,6 +1,8 @@
 ## 项目简介
-Poké-Fishing-Bot 是一款基于图像模板匹配与模拟按键的**宝可梦自动钓鱼脚本**。  
+
+PokeMMOAutoFishing 是一款基于图像模板匹配与模拟按键的**宝可梦自动钓鱼脚本**。  
 通过 OpenCV 识别游戏画面中的状态图标，自动完成「钓鱼 → 战斗 → 回城治疗 → 继续钓鱼」循环，并支持：
+
 - 闪光（异色）告警 + 自动截图发送 QQ
 - 冻结/ PP 不足 / 连续战斗 等多种异常处理
 - 实时日志悬浮窗，方便调试与状态监控
@@ -12,6 +14,7 @@ Poké-Fishing-Bot 是一款基于图像模板匹配与模拟按键的**宝可梦
 ---
 
 ## 功能特性
+
 | 模块         | 描述                                                     |
 | ------------ | -------------------------------------------------------- |
 | `fishing`    | 自动抛竿、识别钓鱼成功/失败、进入战斗                    |
@@ -25,13 +28,15 @@ Poké-Fishing-Bot 是一款基于图像模板匹配与模拟按键的**宝可梦
 ---
 
 ## 运行环境
+
 - Windows 10/11（**DPI 100%**）
 
-- Python 3.9 ~ 3.11 64-bit
+- Python 3.9 ~ 3.11 64-bit，实验环境为3.10.6
 
 - 1920×1080 分辨率，游戏窗口**必须位于主屏幕**
 
 - 游戏内需要设置的**快捷键**：
+
   - `z` 攻击 / 确认
   - `x` 退出战斗
   - `1` 骑车
@@ -41,7 +46,9 @@ Poké-Fishing-Bot 是一款基于图像模板匹配与模拟按键的**宝可梦
 
 - \-自行激活虚拟环境执行或在项目根目录下执行：
 
-  .venv\Scripts\python.exe main.py 
+  ```
+  .venv\Scripts\python.exe main.py
+  ```
 
 - -需要打开qq并有显示在任务栏并将**我的手机**（或自行修改）置顶以便出闪时发消息提醒
 
@@ -49,54 +56,71 @@ Poké-Fishing-Bot 是一款基于图像模板匹配与模拟按键的**宝可梦
 
 - \- 自行研究
 
----
+------
 
 ## 使用（Windows）
-1.项目根目录创建并激活虚拟环境（推荐）
-python -m venv .venv
+
+1.项目根目录创建并激活虚拟环境（推荐） 
+
+```
+python -m venv .venv 
 .venv\Scripts\activate
+```
 
-2.安装依赖
-pip install -r requirements.txt
+2.安装依赖 
 
-3.将「 assets/images 」里的模板图替换为你自己游戏实测截图（保持同名即可）
+```
+pip install -rrequirements.txt
+```
 
-4.运行脚本
-python main.py
-若看到半透明黑色日志窗弹出，即表示启动成功；3 秒内立即切换回游戏窗口，脚本将自动开始钓鱼。
+3.将「assets/images」里的模板图替换为你自己的游戏实测截图（保留同名即可）
+
+4.运行脚本 
+
+```
+python main.py 
+```
+
+若看到半透明黑色日志窗口弹出，即表示启动成功；3秒内立即切换回游戏窗口，脚本将自动开始钓鱼。
+
+---
 
 ## 项目结构
 
-**# PokeMMOAutoFishing**
+**PokeMMOAutoFishing 项目结构**
 
-PokeMMOAu to Fishing
+```
+PokeMMOAutoFishing/                 # 项目根目录
+│
+├── main.py                         # 入口脚本
+├── requirements.txt                # Python 依赖清单
+├── README.md                       # 项目说明
+├── .gitignore                      # Git 忽略规则
+├── assets/                         # 静态资源
+│   ├── images/                     # 模板截图（钓鱼/战斗/异常等）
+│   └── debug_path/                 # 调试 ROI 输出
+│
+├── scripts/                        # 核心代码
+│   ├── core/                       # 业务逻辑模块
+│   │   ├── battle.py               # 战斗/按键封装
+│   │   ├── fishing.py              # 钓鱼主循环
+│   │   ├── home.py                 # 回城治疗流程
+│   │   ├── freeze.py               # 冻结检测
+│   │   ├── shining.py              # 闪光检测+QQ截图
+│   │   └── continueBattle.py       # 连续战斗
+│   │
+│   ├── ui/
+│   │   └── log_window.py           # 悬浮日志窗
+│   │
+│   ├── config.py                   # 路径与模板图配置
+│   ├── constants.py                # 置信度/等待时间/按键常量
+│   ├── lang_check.py               # 输入法切换
+│   ├── logger.py                   # 统一日志
+│   └── state.py                    # 游戏状态检测
+│
+├── tools/                          # 开发辅助
+│   └── test_location.py            # 截图/坐标调试脚本
+│
+└── .venv/                          # 虚拟环境（Windows）
+```
 
-**## 项目结构**
-
-├── main.py       # 入口
-├── scripts/       # 核心代码
-│  ├── core/      # 业务模块
-│  ├── ui/       # 日志窗口
-│  ├── capture/     # 图像缓存
-│  ├── config.py    # 路径
-│  ├── constants.py   # 魔法数字
-│  ├── logger.py    # 统一日志
-│  └── utils.py     # 工具函数
-├── assets├──images/     # 模板图
-│     └── debug_path/  #测试文件路径
-├── tools/        # 开发脚本
-├── tests/        # 单元测试
-├── .gitignore      #git忽略
-├──.venv/        #虚拟环境
-├── requirements.txt   #依赖环境
-└──README.md   #项目文档
-
-
-## 常见问题（FAQ）
-
-| 问题                     | 解决思路                                                                   |
-| ---------------------- | ---------------------------------------------------------------------- |
-| 脚本报错 `Image not found` | 检查 `assets/images/` 是否漏放截图；路径/命名必须与 `config.py` 保持一致                   |
-| 识别成功率低                 | ① 关闭游戏抗锯齿/动态光影；② 用 `tools/test_location.py` 重新截图；③ 调整 `CONF["high"]` 置信度 |
-| 日志窗不显示                 | 确保 Windows 缩放 100%；多屏时把游戏放主屏；或 `set PYTHONPATH=.` 后再运行                 |
-| 无法发送 QQ 截图             | 需要 Powershell 可用；QQ 必须已登录且「我的电脑」在顶部；`IMAGES["qq_send"]` 按钮图需替换         |
