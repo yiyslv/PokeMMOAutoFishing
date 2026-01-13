@@ -11,6 +11,11 @@ PokeMMOAutoFishing 是一款基于图像模板匹配与模拟按键的**宝可�
 > 仅支持 **Windows 10/11** 简体中文版，**1920×1080 分辨率** 下测试通过。  
 > 观众多开源项目有感，开发此项目仅供学习研究，禁止用于商业及破坏游戏公平性场景。
 
+> assets\images 里面的图片可能根据游戏版本不同有差异，可替换（可参照对比 scripts\config.py 第7行IMAGES）
+> scripts\lang_check.py 第20行ROI = (1685, 1040, 20, 20)是为了鼠标点击更改中英文如有需要根据分辨率和位置修改（若无合适像素计算方法可参考 tools\test_location.py 计算）
+> scripts/constants.py 41行KEYS键位可修改
+> 如果性能，延迟不同可微调 scripts/constants.py 参数 
+
 ---
 
 ## 功能特性
