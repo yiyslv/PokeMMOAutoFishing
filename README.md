@@ -15,6 +15,7 @@ PokeMMOAutoFishing 是一款基于图像模板匹配与模拟按键的**宝可�
 > scripts\lang_check.py 第20行ROI = (1685, 1040, 20, 20)是为了鼠标点击更改中英文如有需要根据分辨率和位置修改（若无合适像素计算方法可参考 tools\test_location.py 计算）
 > scripts/constants.py 41行KEYS键位可修改
 > 如果性能，延迟不同可微调 scripts/constants.py 参数 
+> 只对涟漪湾的钓鱼点做了持续优化，其他位置不可行
 
 ---
 
