@@ -1,12 +1,12 @@
 from scripts import state
-import pydirectinput as pd
+#import pydirectinput as pd
 import time
 import pyautogui as pg
-from scripts.constants import CONF, MAX, WAIT
+from scripts.constants import CONF, MAX, WAIT, COUNT
 from scripts.core import battle, continueBattle, freeze, home, shining
 from scripts.lang_check import ensure_english_input_method
 from config import IMAGES
-from scripts.logger import log
+from scripts.logger import log, msg
 
 logwin = None   # 由外部注入
 
@@ -52,15 +52,6 @@ def handle_exceptional_states() -> bool:
 # ② 主流程
 # ------------------------------------------------------------------
 def fish():
-    count_fish     = CONF["start"]
-    count_freeze   = CONF["start"]
-    count_continue = CONF["start"]
-    count_shining  = CONF["start"]
-    count_home     = CONF["start"]
-    count_fail     = CONF["start"]
-    count_perfect  = CONF["start"]
-    count_all      = CONF["start"]
-
     ensure_english_input_method()
 
     # 启动前统一检查一次
@@ -69,8 +60,8 @@ def fish():
     while True:
         ensure_english_input_method()
         battle.fish()
-        count_all += 1
-        log(f"开始第 {count_all} 次钓鱼")
+        COUNT["count_all"] += 1
+        log(f"开始第 {COUNT['count_all']} 次钓鱼")
 
         time.sleep(WAIT["fish_start"])          # 等钓鱼动画
 
@@ -81,7 +72,7 @@ def fish():
         for _ in range(MAX["fishing"]):
             if pg.locateOnScreen(IMAGES["fish_success"], confidence=CONF["high"], grayscale=True):
                 success, fail = True, False
-                count_fish += 1
+                COUNT["count_fish"] += 1
                 log("钓鱼成功，进入战斗")
                 break
             if pg.locateOnScreen(IMAGES["fish_fail"], confidence=CONF["high"], grayscale=True):
@@ -93,8 +84,9 @@ def fish():
         if fail:
             time.sleep(WAIT["fish_fail"])      # 等钓鱼失败动画
             battle.run()
-            count_fail += 1
-            log(f"本次钓鱼失败次数: {count_fail} 次")
+            COUNT["count_fail"] += 1
+            log("本次钓鱼失败")
+            msg()
             continue
 
         if not success:        # 什么都没检测到
@@ -105,34 +97,10 @@ def fish():
         # ----------------------------------------------------------
         # ④ 成功钓鱼 → 进入战斗流程
         # ----------------------------------------------------------
-        time.sleep(WAIT["fish_success"]) # 等待钓鱼成功动画结束
-        battle.run()           # 确认进入战斗
-        log("加载战斗动画")
-        time.sleep(WAIT["fish_attack_start"]) # 等待战斗动画加载
+        continueBattle.Attack()
 
-        shining.check_shining()  # 检测到会退出脚本
-
-        battle.run()             # 选择战斗
-        battle.run()             # 攻击
-        if home.go_home():       # PP 不足回城
-            count_home += 1
-
-        log("等待战斗动画结束")
-        time.sleep(WAIT["fish_attack_end"])  # 等待战斗动画结束
-        log("第1回合战斗结束")
-
-        if freeze.check_freeze():
-            count_freeze += 1
-            home.go_home(force=True)
-            continue
-
-        if continueBattle.continueBattle():
-            count_continue += 1
-            log(f"继续战斗次数: {count_continue} 次")
-        else:
-            count_perfect += 1
-            log(f"完美钓鱼次数: {count_perfect} 次")
-
-        log(f"本次钓鱼已完成次数: {count_fish} 次")
-        log(f"freeze={count_freeze}, continue={count_continue}, "
-            f"shining={count_shining}, home={count_home}")
+        # ----------------------------------------------------------
+        # ④ 流程结束 → 统计日志
+        # ----------------------------------------------------------
+        log("本次钓鱼完成")
+        msg()

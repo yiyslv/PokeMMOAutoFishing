@@ -4,7 +4,7 @@ import os
 import time
 from datetime import datetime
 from config import IMAGES
-from scripts.constants import CONF, MAX, WAIT
+from scripts.constants import CONF, COUNT, MAX, WAIT
 from scripts.logger import log
 
 logwin = None  # 由外部注入
@@ -59,6 +59,8 @@ def check_shining():
     for _ in range(MAX["shining"]):
         if pg.locateOnScreen(IMAGES["shining"], confidence=CONF["mid"], grayscale=True): # 中分辨率 shining
             log("检测到闪光，准备截图并发 QQ")
+            COUNT['count_shining'] += 1
+            log(f"本次闪光次数: {COUNT['count_shining']} 次")
             if logwin:
                 log("检测到闪光，正在截图并发往 QQ「我的手机」")
 

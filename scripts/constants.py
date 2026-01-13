@@ -34,7 +34,7 @@ WAIT={
     "fish_fail": 1, # 等待钓鱼失败动画
     "fish_success": 1, # 等待钓鱼成功动画
     "fish_attack_start": 10, # 等待战斗动画加载
-    "fish_attack_end": 15, # 等待战斗动画结束
+    "fish_attack_end": 13, # 等待战斗动画结束
 }
 
 # ---------- 按键 ----------
@@ -64,3 +64,15 @@ MAX={
     "continue": 5 # 连续战斗次数
 }
 
+# ---------- 计数器 ----------
+COUNT={
+    "count_fish": 0,
+    "count_freeze": 0,
+    "count_continue": 0,
+    "count_shining": 0,
+    "count_home": 0,
+    "count_fail": 0,
+    "count_perfect": 0,
+    "count_all": 0,
+    "count_battle_fail": 0
+}

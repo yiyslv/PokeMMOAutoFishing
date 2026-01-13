@@ -9,6 +9,8 @@ import ctypes
 import time
 import threading
 
+from scripts.logger import log
+
 def _apply_windows_window_style_hwnd(hwnd: int, no_activate: bool = True, enable_transparent: bool = False):
     try:
         GWL_EXSTYLE = -20
@@ -239,11 +241,10 @@ class LogWindow:
                 th.start()
                 self.__class__._thread_started = True
                 self.__class__._started = True
-                print("log_window: started in-thread GUI (force_thread=True)")
+                log("log_window: started in-thread GUI (force_thread=True)")
                 return
             except Exception as e:
-                print("log_window: force thread GUI failed:", e)
-
+                log("log_window: force thread GUI failed:", e)
         try:
             ctx = mp.get_context("spawn")
             q = ctx.Queue()

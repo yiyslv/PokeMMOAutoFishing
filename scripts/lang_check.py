@@ -1,12 +1,16 @@
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'scripts'))
+
 import ctypes
 import time
 import cv2
 import numpy as np
 import pyautogui as pg
 from config import IMAGES,DEBUG_PATH
-from scripts.constants import CONF
-from scripts.core.battle import keydown_ctrl, keyup_ctrl, space
-from scripts.logger import log
+from constants import CONF
+from core.battle import keydown_ctrl, keyup_ctrl, space
+from logger import log
 
 user32 = ctypes.windll.user32
 VK_CONTROL = 0x11
@@ -52,7 +56,7 @@ def ensure_english_input_method(verbose=False):
         if verbose:
             log("OCR 检测到英文图标，无需切换")
 
-"""
+#"""
 if __name__ == "__main__":
     ensure_english_input_method(verbose=True)
 
@@ -60,4 +64,4 @@ if __name__ == "__main__":
     save_path = DEBUG_PATH["debug_roi"] / "debug_roi.png"
     cv2.imwrite(str(save_path), roi_img)
     log(f"已保存当前 ROI 到 {save_path.resolve()}，请打开核对是否包含“中/英”图标")
-"""
+#"""
